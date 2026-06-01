@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIEMBANGIAY - Khám phá hàng ngàn mẫu giày</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E8192C;
+  --red-dark: #c0111f;
+  --black: #111111;
+  --dark: #1a1a1a;
+  --gray: #f4f4f4;
+  --gray2: #e8e8e8;
+  --text: #222222;
+  --muted: #888888;
+  --white: #ffffff;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; color: var(--text); background: var(--white); }
+
+/* ===== NAVBAR ===== */
+.navbar {
+  position: sticky; top: 0; z-index: 1000;
+  background: var(--black);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 64px;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 2px; color: var(--white); cursor:pointer; }
+.logo span { color: var(--red); }
+.nav-links { display:flex; gap:28px; }
+.nav-links a {
+  color: rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500;
+  padding: 6px 2px; border-bottom: 2px solid transparent;
+  transition: all .2s; cursor:pointer;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--white); border-bottom-color: var(--red); }
+.nav-right { display:flex; align-items:center; gap:20px; }
+.nav-search {
+  display:flex; align-items:center; gap:8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px; padding: 8px 14px; width: 220px;
+  transition: all .2s;
+}
+.nav-search:focus-within { background: rgba(255,255,255,0.12); border-color: var(--red); }
+.nav-search input { background:none; border:none; outline:none; color:var(--white); font-size:13px; width:100%; font-family: 'DM Sans', sans-serif; }
+.nav-search input::placeholder { color: rgba(255,255,255,0.4); }
+.nav-icon { color: rgba(255,255,255,0.8); cursor:pointer; font-size:20px; transition:.2s; position:relative; }
+.nav-icon:hover { color:var(--white); }
+.cart-badge {
+  position:absolute; top:-6px; right:-8px;
+  background:var(--red); color:var(--white); font-size:10px; font-weight:700;
+  width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+}
+.nav-auth-btn {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.85); border-radius: 8px; padding: 7px 16px;
+  font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all .2s; white-space: nowrap;
+}
+.nav-auth-btn:hover { border-color: rgba(255,255,255,0.7); color: var(--white); }
+.nav-auth-primary { background: var(--red); border-color: var(--red); color: var(--white); }
+.nav-auth-primary:hover { background: var(--red-dark); border-color: var(--red-dark); }
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, var(--black) 0%, #2a0a0e 60%, #1a1a1a 100%);
+  padding: 80px 40px 60px;
+  display: flex; align-items:center; justify-content:space-between;
+  min-height: 420px; position:relative; overflow:hidden;
+}
+.hero::before {
+  content:''; position:absolute; top:-100px; right:-100px;
+  width:500px; height:500px; border-radius:50%;
+  background: radial-gradient(circle, rgba(232,25,44,0.15) 0%, transparent 70%);
+}
+.hero-content { max-width: 560px; position:relative; z-index:1; }
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background: var(--red); color:var(--white); font-size:11px; font-weight:700;
+  letter-spacing:1.5px; padding:5px 12px; border-radius:20px; text-transform:uppercase;
+  margin-bottom:20px;
+}
+.hero h1 { font-family:'Bebas Neue',sans-serif; font-size:72px; line-height:1; color:var(--white); margin-bottom:8px; }
+.hero h1 span { color:var(--red); }
+.hero p { color:rgba(255,255,255,0.6); font-size:16px; margin-bottom:32px; line-height:1.6; }
+.hero-stats { display:flex; gap:32px; }
+.stat { text-align:center; }
+.stat-num { font-family:'Bebas Neue',sans-serif; font-size:36px; color:var(--white); }
+.stat-label { font-size:12px; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1px; }
+
+/* ===== CATEGORY TABS ===== */
+.cat-bar {
+  background: var(--white); border-bottom:1px solid var(--gray2);
+  padding: 0 40px; display:flex; gap:4px; overflow-x:auto;
+  scrollbar-width:none;
+}
+.cat-bar::-webkit-scrollbar { display:none; }
+.cat-btn {
+  padding: 16px 20px; font-size:13px; font-weight:600; white-space:nowrap;
+  border:none; background:none; cursor:pointer; color:var(--muted);
+  border-bottom:3px solid transparent; transition:all .2s; font-family:'DM Sans',sans-serif;
+}
+.cat-btn:hover { color:var(--text); }
+.cat-btn.active { color:var(--red); border-bottom-color:var(--red); }
+
+/* ===== MAIN LAYOUT ===== */
+.shop-layout { display:flex; gap:0; min-height:80vh; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 240px; flex-shrink:0;
+  background: var(--white); border-right:1px solid var(--gray2);
+  padding: 24px; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar { width:4px; }
+.sidebar::-webkit-scrollbar-track { background:transparent; }
+.sidebar::-webkit-scrollbar-thumb { background:var(--gray2); border-radius:4px; }
+.filter-section { margin-bottom:28px; }
+.filter-title { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:12px; }
+.filter-option { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.filter-option label { display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; }
+.filter-option input[type=checkbox] { accent-color:var(--red); width:14px; height:14px; }
+.filter-count { font-size:11px; color:var(--muted); background:var(--gray); padding:1px 7px; border-radius:10px; }
+.price-range { display:flex; gap:8px; }
+.price-input { flex:1; border:1px solid var(--gray2); border-radius:8px; padding:8px; font-size:12px; font-family:'DM Sans',sans-serif; outline:none; }
+.price-input:focus { border-color:var(--red); }
+.size-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+.size-btn {
+  border:1px solid var(--gray2); background:var(--white);
+  border-radius:8px; padding:7px 4px; font-size:12px; font-weight:500;
+  cursor:pointer; transition:all .15s; text-align:center; font-family:'DM Sans',sans-serif;
+}
+.size-btn:hover { border-color:var(--red); color:var(--red); }
+.size-btn.active { background:var(--red); border-color:var(--red); color:var(--white); }
+.apply-btn {
+  width:100%; background:var(--red); color:var(--white);
+  border:none; border-radius:10px; padding:13px;
+  font-size:14px; font-weight:700; cursor:pointer; transition:.2s;
+  font-family:'DM Sans',sans-serif; margin-top:8px;
+}
+.apply-btn:hover { background:var(--red-dark); }
+
+/* ===== PRODUCTS ===== */
+.products-area { flex:1; padding:24px 32px; }
+.products-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+.products-header h2 { font-size:22px; font-weight:700; }
+.products-count { font-size:13px; color:var(--muted); }
+.sort-select {
+  border:1px solid var(--gray2); border-radius:8px; padding:8px 14px;
+  font-size:13px; font-family:'DM Sans',sans-serif; outline:none; cursor:pointer;
+  background:var(--white);
+}
+.sort-select:focus { border-color:var(--red); }
+.product-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+
+@media(max-width:1200px){ .product-grid{ grid-template-columns:repeat(3,1fr); } }
+
+.product-card {
+  background:var(--white); border-radius:var(--radius); overflow:hidden;
+  border:1px solid var(--gray2); cursor:pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+.product-card:hover { transform:translateY(-4px); box-shadow:var(--shadow); }
+.product-img {
+  aspect-ratio:1; background:var(--gray);
+  display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.product-img-emoji { font-size:64px; transition:.3s; }
+.product-card:hover .product-img-emoji { transform:scale(1.1); }
+.product-wishlist {
+  position:absolute; top:10px; right:10px;
+  width:32px; height:32px; background:var(--white); border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:none; cursor:pointer; font-size:14px; box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  transition:.2s; opacity:0;
+}
+.product-card:hover .product-wishlist { opacity:1; }
+.product-wishlist.liked { opacity:1; color:var(--red); }
+.product-badge {
+  position:absolute; top:10px; left:10px;
+  padding:3px 8px; border-radius:6px; font-size:11px; font-weight:700;
+}
+.badge-new { background:#3b82f6; color:var(--white); }
+.badge-sale { background:var(--red); color:var(--white); }
+.badge-hot { background:#f59e0b; color:var(--white); }
+.badge-popular { background:#10b981; color:var(--white); }
+.product-info { padding:12px 14px 14px; }
+.product-brand { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:3px; }
+.product-name { font-size:14px; font-weight:600; margin-bottom:8px; line-height:1.3; }
+.product-price-row { display:flex; align-items:center; justify-content:space-between; }
+.product-price { font-size:15px; font-weight:700; color:var(--red); }
+.product-old-price { font-size:12px; color:var(--muted); text-decoration:line-through; }
+.add-btn {
+  background:var(--black); color:var(--white);
+  border:none; border-radius:7px; padding:6px 12px;
+  font-size:12px; font-weight:600; cursor:pointer; transition:.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.add-btn:hover { background:var(--red); }
+
+/* ===== CART PAGE ===== */
+.page { display:none; }
+.page.active { display:block; }
+.breadcrumb { padding:16px 40px; font-size:13px; color:var(--muted); border-bottom:1px solid var(--gray2); display:flex; gap:8px; align-items:center; }
+.breadcrumb span { cursor:pointer; } .breadcrumb span:hover { color:var(--red); }
+.cart-container { max-width:1100px; margin:0 auto; padding:32px 40px; display:flex; gap:32px; }
+.cart-main { flex:1; }
+.cart-title { font-size:28px; font-weight:700; margin-bottom:4px; display:flex; align-items:center; gap:12px; }
+.cart-title-badge { width:28px; height:6px; background:var(--red); border-radius:3px; }
+.cart-empty { text-align:center; padding:80px 0; }
+.cart-empty-icon { font-size:80px; margin-bottom:16px; opacity:.3; }
+.cart-empty p { color:var(--muted); margin-bottom:24px; }
+.cart-items { margin-top:24px; display:flex; flex-direction:column; gap:16px; }
+.cart-item {
+  display:flex; gap:16px; align-items:center;
+  background:var(--white); border:1px solid var(--gray2); border-radius:var(--radius); padding:16px;
+}
+.cart-item-img { width:80px; height:80px; background:var(--gray); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:40px; flex-shrink:0; }
+.cart-item-info { flex:1; }
+.cart-item-brand { font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+.cart-item-name { font-size:15px; font-weight:600; margin:2px 0 4px; }
+.cart-item-size { font-size:12px; color:var(--muted); }
+.cart-item-price { font-size:15px; font-weight:700; color:var(--red); min-width:100px; text-align:right; }
+.qty-ctrl { display:flex; align-items:center; gap:8px; }
+.qty-btn { width:28px; height:28px; border:1px solid var(--gray2); background:var(--white); border-radius:6px; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; transition:.15s; }
+.qty-btn:hover { border-color:var(--red); color:var(--red); }
+.qty-num { font-weight:600; font-size:14px; min-width:20px; text-align:center; }
+.remove-btn { background:none; border:none; cursor:pointer; color:var(--muted); font-size:18px; padding:4px; transition:.15s; }
+.remove-btn:hover { color:var(--red); }
+.cart-items-header { display:grid; grid-template-columns:1fr 120px 140px 120px 40px; gap:16px; padding:0 16px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+.shipping-bar { background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px 16px; display:flex; align-items:center; gap:10px; margin-top:20px; font-size:13px; }
+.shipping-bar .icon { font-size:20px; }
+
+/* ===== CART SIDEBAR ===== */
+.cart-sidebar { width:320px; flex-shrink:0; }
+.order-summary { background:var(--white); border:1px solid var(--gray2); border-radius:var(--radius); padding:24px; position:sticky; top:80px; }
+.order-summary h3 { font-size:16px; font-weight:700; margin-bottom:20px; }
+.summary-row { display:flex; justify-content:space-between; font-size:14px; margin-bottom:12px; }
+.summary-row.total { font-weight:700; font-size:16px; border-top:1px solid var(--gray2); padding-top:12px; margin-top:4px; }
+.summary-row.total .amount { color:var(--red); font-size:18px; }
+.coupon-row { display:flex; gap:8px; margin-bottom:16px; }
+.coupon-input { flex:1; border:1px solid var(--gray2); border-radius:8px; padding:10px 12px; font-size:13px; font-family:'DM Sans',sans-serif; outline:none; }
+.coupon-input:focus { border-color:var(--red); }
+.coupon-btn { background:var(--black); color:var(--white); border:none; border-radius:8px; padding:10px 14px; font-size:13px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+.checkout-btn {
+  width:100%; background:var(--red); color:var(--white);
+  border:none; border-radius:10px; padding:15px;
+  font-size:15px; font-weight:700; cursor:pointer; transition:.2s;
+  font-family:'DM Sans',sans-serif; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.checkout-btn:hover { background:var(--red-dark); }
+
+/* ===== PAYMENT MODAL ===== */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.5); z-index:2000;
+  align-items:center; justify-content:center;
+  backdrop-filter:blur(4px);
+}
+.modal-overlay.open { display:flex; }
+.modal {
+  background:var(--white); border-radius:16px; width:480px; max-width:95vw;
+  padding:32px; position:relative; animation:modalIn .25s ease;
+  max-height:90vh; overflow-y:auto;
+}
+@keyframes modalIn { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-close { position:absolute; top:16px; right:16px; background:var(--gray); border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; }
+.modal h2 { font-size:22px; font-weight:700; margin-bottom:4px; }
+.modal .sub { font-size:13px; color:var(--muted); margin-bottom:24px; }
+.pay-methods { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+.pay-method {
+  border:2px solid var(--gray2); border-radius:10px; padding:14px;
+  cursor:pointer; transition:all .15s; text-align:center;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.pay-method:hover { border-color:var(--red); }
+.pay-method.selected { border-color:var(--red); background:#fff5f5; }
+.pay-method-icon { font-size:28px; }
+.pay-method-name { font-size:12px; font-weight:600; }
+.pay-method-desc { font-size:10px; color:var(--muted); }
+.modal-divider { border:none; border-top:1px solid var(--gray2); margin:16px 0; }
+.modal-field { margin-bottom:14px; }
+.modal-field label { font-size:12px; font-weight:600; display:block; margin-bottom:6px; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); }
+.modal-field input, .modal-field select {
+  width:100%; border:1px solid var(--gray2); border-radius:8px; padding:10px 12px;
+  font-size:14px; font-family:'DM Sans',sans-serif; outline:none; transition:.15s;
+}
+.modal-field input:focus, .modal-field select:focus { border-color:var(--red); }
+.modal-row { display:flex; gap:12px; }
+.modal-row .modal-field { flex:1; }
+.modal-total-row { display:flex; justify-content:space-between; align-items:center; margin:16px 0; }
+.modal-total-row span:first-child { font-size:14px; font-weight:600; }
+.modal-total-row span:last-child { font-size:20px; font-weight:700; color:var(--red); }
+.pay-btn {
+  width:100%; background:var(--red); color:var(--white);
+  border:none; border-radius:10px; padding:15px;
+  font-size:15px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:.2s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.pay-btn:hover { background:var(--red-dark); }
+.pay-secure { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+
+/* ===== SUCCESS ===== */
+.success-modal { text-align:center; padding:16px 0; }
+.success-icon { font-size:64px; margin-bottom:12px; }
+.success-modal h2 { font-size:24px; font-weight:700; margin-bottom:8px; color:#10b981; }
+.success-modal p { font-size:14px; color:var(--muted); line-height:1.6; }
+
+/* ===== AUTH PAGES ===== */
+.auth-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--black) 0%, #1a0608 50%, #1a1a1a 100%);
+  display:flex; flex-direction:column; position:relative; overflow:hidden;
+}
+.auth-page::before {
+  content:''; position:absolute; top:-150px; right:-150px;
+  width:600px; height:600px; border-radius:50%;
+  background: radial-gradient(circle, rgba(232,25,44,0.12) 0%, transparent 70%);
+}
+.auth-page::after {
+  content:''; position:absolute; bottom:-100px; left:-100px;
+  width:400px; height:400px; border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+}
+.auth-nav { display:flex; justify-content:space-between; align-items:center; padding:20px 40px; position:relative; z-index:1; }
+.auth-nav .logo { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; color:var(--white); }
+.auth-nav .logo span { color:var(--red); }
+.auth-nav-link { color:rgba(255,255,255,0.6); font-size:13px; cursor:pointer; text-decoration:none; }
+.auth-nav-link:hover { color:var(--white); }
+.auth-header { padding:40px 40px 0; position:relative; z-index:1; }
+.auth-header .badge { display:inline-flex; align-items:center; gap:6px; background:var(--red); color:var(--white); font-size:10px; font-weight:700; letter-spacing:1.5px; padding:4px 12px; border-radius:20px; text-transform:uppercase; margin-bottom:16px; }
+.auth-header h1 { font-size:52px; font-weight:800; color:var(--white); line-height:1.05; margin-bottom:8px; }
+.auth-header h1 span { color:var(--red); }
+.auth-header p { color:rgba(255,255,255,0.5); font-size:14px; }
+.auth-card { background:var(--white); margin:24px 40px 40px; border-radius:16px; padding:28px; position:relative; z-index:1; max-width:640px; }
+.google-btn {
+  width:100%; border:1.5px solid var(--gray2); background:var(--white);
+  border-radius:10px; padding:13px; font-size:14px; font-weight:500;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:'DM Sans',sans-serif; transition:.15s; color:var(--text);
+}
+.google-btn:hover { background:var(--gray); }
+.or-divider { display:flex; align-items:center; gap:12px; margin:16px 0; }
+.or-divider::before,.or-divider::after { content:''; flex:1; height:1px; background:var(--gray2); }
+.or-divider span { font-size:12px; color:var(--muted); }
+.form-group { margin-bottom:14px; }
+.form-group label { display:block; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; color:var(--muted); margin-bottom:6px; }
+.form-input-wrap { position:relative; }
+.form-input-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); }
+.form-input {
+  width:100%; border:1.5px solid var(--gray2); border-radius:10px;
+  padding:11px 12px 11px 36px; font-size:14px; font-family:'DM Sans',sans-serif; outline:none; transition:.15s;
+}
+.form-input:focus { border-color:var(--red); }
+.form-input.no-icon { padding-left:12px; }
+.form-row { display:flex; gap:12px; }
+.form-row .form-group { flex:1; }
+.forgot-link { display:block; text-align:right; font-size:12px; color:var(--red); cursor:pointer; margin-top:-8px; margin-bottom:16px; }
+.forgot-link:hover { text-decoration:underline; }
+.auth-submit {
+  width:100%; background:var(--red); color:var(--white);
+  border:none; border-radius:10px; padding:14px;
+  font-size:15px; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif;
+  transition:.2s; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.auth-submit:hover { background:var(--red-dark); }
+.auth-switch { text-align:center; font-size:13px; color:var(--muted); margin-top:14px; }
+.auth-switch a { color:var(--red); font-weight:600; cursor:pointer; text-decoration:none; }
+.auth-switch a:hover { text-decoration:underline; }
+.strength-bar { display:flex; gap:4px; margin-top:6px; }
+.strength-seg { flex:1; height:3px; background:var(--gray2); border-radius:2px; transition:.3s; }
+.auth-footer-stats { display:flex; gap:24px; margin-top:16px; }
+.auth-stat { display:flex; align-items:center; gap:8px; }
+.auth-stat-icon { width:32px; height:32px; background:var(--black); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; }
+.auth-stat-text { font-size:12px; color:var(--muted); }
+.auth-stat-text strong { display:block; font-size:13px; color:var(--text); }
+
+/* ===== TOAST ===== */
+.toast {
+  position:fixed; bottom:24px; right:24px;
+  background:var(--black); color:var(--white);
+  padding:12px 20px; border-radius:10px; font-size:14px; font-weight:500;
+  transform:translateY(100px); opacity:0;
+  transition:all .3s; z-index:3000; display:flex; align-items:center; gap:8px;
+}
+.toast.show { transform:translateY(0); opacity:1; }
+.toast.success { background:#10b981; }
+
+/* ===== FOOTER ===== */
+footer { background:var(--black); color:var(--white); padding:40px; text-align:center; font-size:12px; color:rgba(255,255,255,0.4); margin-top:60px; }
+</style>
+</head>
+<body>
+
+<!-- ====================== PAGE: SHOP ====================== -->
+<div id="page-shop" class="page active">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo" onclick="location.reload()">TIEM<span>BAN</span>GIAY</div>
+    <div class="nav-links">
+      <a class="active" onclick="setNavActive(this);showCat('all')">Trang chủ</a>
+      <a onclick="setNavActive(this);showCat('nam')">Nam</a>
+      <a onclick="setNavActive(this);showCat('nu')">Nữ</a>
+      <a onclick="setNavActive(this);showCat('thethao')">Giày thể thao</a>
+      <a onclick="setNavActive(this);showCat('thuonghieu')">Thương hiệu</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Tìm kiếm giày..." id="searchInput" oninput="doSearch()">
+      </div>
+      <button class="nav-auth-btn" onclick="showPage('login')">Đăng nhập</button>
+      <button class="nav-auth-btn nav-auth-primary" onclick="showPage('register')">Đăng ký</button>
+      <div class="nav-icon" onclick="showPage('cart')">
+        🛒
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Bộ sưu tập mới 2024</div>
+      <h1>KHÁM PHÁ<br><span>PHONG CÁCH</span><br>CỦA BẠN</h1>
+      <p>Hàng ngàn mẫu giày chính hãng từ các thương hiệu hàng đầu thế giới. Giao hàng nhanh 24h toàn quốc.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Sản phẩm</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Đánh giá</div></div>
+        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Giao hàng</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-bar" id="catBar">
+    <button class="cat-btn active" onclick="setCat(this,'all')">Tất cả</button>
+    <button class="cat-btn" onclick="setCat(this,'thethao')">Giày thể thao</button>
+    <button class="cat-btn" onclick="setCat(this,'nam')">Giày nam</button>
+    <button class="cat-btn" onclick="setCat(this,'nu')">Giày nữ</button>
+    <button class="cat-btn" onclick="setCat(this,'chaybo')">Giày chạy bộ</button>
+    <button class="cat-btn" onclick="setCat(this,'thoitrang')">Giày thời trang</button>
+    <button class="cat-btn" onclick="setCat(this,'thuonghieu')">Thương hiệu</button>
+  </div>
+
+  <!-- SHOP LAYOUT -->
+  <div class="shop-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="filter-section" id="filterCat">
+        <div class="filter-title">Loại giày</div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="thethao" onchange="filterProducts()"> Giày thể thao</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="chaybo" onchange="filterProducts()"> Giày chạy bộ</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="thoitrang" onchange="filterProducts()"> Giày thời trang</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="gender" data-val="nam" onchange="filterProducts()"> Giày nam</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="gender" data-val="nu" onchange="filterProducts()"> Giày nữ</label></div>
+      </div>
+      <div class="filter-section" id="filterBrand">
+        <div class="filter-title">Thương hiệu</div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Nike" onchange="filterProducts()"> Nike</label><span class="filter-count">10</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Adidas" onchange="filterProducts()"> Adidas</label><span class="filter-count">10</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Puma" onchange="filterProducts()"> Puma</label><span class="filter-count">8</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Converse" onchange="filterProducts()"> Converse</label><span class="filter-count">6</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Vans" onchange="filterProducts()"> Vans</label><span class="filter-count">7</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="New Balance" onchange="filterProducts()"> New Balance</label><span class="filter-count">7</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Reebok" onchange="filterProducts()"> Reebok</label><span class="filter-count">5</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Asics" onchange="filterProducts()"> Asics</label><span class="filter-count">7</span></div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Khoảng giá</div>
+        <div class="price-range">
+          <input class="price-input" id="priceMin" type="number" placeholder="Từ" value="0" onchange="filterProducts()">
+          <input class="price-input" id="priceMax" type="number" placeholder="Đến" value="6000000" onchange="filterProducts()">
+        </div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Size</div>
+        <div class="size-grid" id="sizeGrid">
+          <button class="size-btn" onclick="toggleSize(this)">36</button>
+          <button class="size-btn" onclick="toggleSize(this)">37</button>
+          <button class="size-btn" onclick="toggleSize(this)">38</button>
+          <button class="size-btn" onclick="toggleSize(this)">39</button>
+          <button class="size-btn" onclick="toggleSize(this)">40</button>
+          <button class="size-btn" onclick="toggleSize(this)">41</button>
+          <button class="size-btn" onclick="toggleSize(this)">42</button>
+          <button class="size-btn" onclick="toggleSize(this)">43</button>
+          <button class="size-btn" onclick="toggleSize(this)">44</button>
+          <button class="size-btn" onclick="toggleSize(this)">45</button>
+        </div>
+      </div>
+      <button class="apply-btn" onclick="filterProducts()">Áp dụng bộ lọc</button>
+      <button class="apply-btn" style="background:var(--gray);color:var(--text);margin-top:8px" onclick="resetFilters()">↺ Xóa bộ lọc</button>
+    </aside>
+
+    <!-- PRODUCTS -->
+    <main class="products-area">
+      <div class="products-header">
+        <div>
+          <h2 id="catTitle">Tất cả sản phẩm</h2>
+          <div class="products-count" id="prodCount">Hiển thị <strong>0</strong> sản phẩm</div>
+        </div>
+        <select class="sort-select" onchange="sortProducts(this.value)">
+          <option value="popular">Phổ biến nhất</option>
+          <option value="price-asc">Giá tăng dần</option>
+          <option value="price-desc">Giá giảm dần</option>
+          <option value="newest">Mới nhất</option>
+        </select>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </main>
+  </div>
+
+  <footer>© 2024 TIEMBANGIAY. All rights reserved. 🇻🇳 Giao hàng nhanh 24h toàn quốc.</footer>
+</div>
+
+<!-- ====================== PAGE: CART ====================== -->
+<div id="page-cart" class="page">
+  <nav class="navbar">
+    <div class="logo" onclick="location.reload()">TIEM<span>BAN</span>GIAY</div>
+    <div class="nav-links">
+      <a onclick="showPage('shop')">Trang chủ</a>
+      <a onclick="showPage('shop');showCat('nam')">Nam</a>
+      <a onclick="showPage('shop');showCat('nu')">Nữ</a>
+      <a onclick="showPage('shop');showCat('thuonghieu')">Thương hiệu</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-auth-btn" onclick="showPage('login')">Đăng nhập</button>
+      <button class="nav-auth-btn nav-auth-primary" onclick="showPage('register')">Đăng ký</button>
+      <div class="nav-icon" onclick="showPage('cart')">🛒<span class="cart-badge" id="cartBadge2">0</span></div>
+    </div>
+  </nav>
+  <div class="breadcrumb">
+    <span onclick="showPage('shop')">Trang chủ</span> › <span>Sản phẩm</span> › <strong>Giỏ hàng</strong>
+  </div>
+  <div class="cart-container">
+    <div class="cart-main">
+      <div class="cart-title"><span class="cart-title-badge"></span> Giỏ hàng</div>
+      <div id="cartBody"></div>
+    </div>
+    <div class="cart-sidebar">
+      <div class="order-summary">
+        <h3>Tóm tắt đơn hàng</h3>
+        <div class="summary-row"><span>Tạm tính</span><span id="sumSubtotal">0đ</span></div>
+        <div class="summary-row"><span>Phí vận chuyển</span><span id="sumShip" style="color:#10b981">Miễn phí</span></div>
+        <div class="summary-row"><span>Giảm giá</span><span id="sumDiscount">-0đ</span></div>
+        <div class="summary-row total"><span>Tổng cộng</span><span class="amount" id="sumTotal">0đ</span></div>
+        <div class="coupon-row">
+          <input class="coupon-input" type="text" placeholder="Mã giảm giá..." id="couponInput">
+          <button class="coupon-btn" onclick="applyCoupon()">Áp dụng</button>
+        </div>
+        <button class="checkout-btn" onclick="openPayment()">Thanh toán ngay 🔒</button>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted)">🔒 Thanh toán bảo mật SSL 256-bit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== PAGE: LOGIN ====================== -->
+<div id="page-login" class="page auth-page">
+  <nav class="auth-nav">
+    <div class="logo" onclick="location.reload()">TIEM<span style="color:var(--red)">BAN</span>GIAY</div>
+    <a class="auth-nav-link" onclick="showPage('shop')">› Về trang chủ</a>
+  </nav>
+  <div class="auth-header">
+    <div class="badge">🔒 Đăng nhập tài khoản</div>
+    <h1>Chào mừng<br><span>trở lại!</span></h1>
+    <p>Đăng nhập để khám phá hàng ngàn mẫu giày mới nhất.</p>
+  </div>
+  <div class="auth-card">
+    <button class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+      Tiếp tục với Google
+    </button>
+    <div class="or-divider"><span>hoặc</span></div>
+    <div class="form-group">
+      <label>Email</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">✉️</span>
+        <input class="form-input" type="email" placeholder="email@example.com">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Mật khẩu</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">🔒</span>
+        <input class="form-input" type="password" placeholder="Nhập mật khẩu...">
+      </div>
+    </div>
+    <a class="forgot-link">Quên mật khẩu?</a>
+    <button class="auth-submit" onclick="showPage('shop')">Đăng nhập →</button>
+    <div class="auth-switch">Chưa có tài khoản? <a onclick="showPage('register')">Đăng ký ngay →</a></div>
+  </div>
+</div>
+
+<!-- ====================== PAGE: REGISTER ====================== -->
+<div id="page-register" class="page auth-page">
+  <nav class="auth-nav">
+    <div class="logo" onclick="location.reload()">TIEM<span style="color:var(--red)">BAN</span>GIAY</div>
+    <a class="auth-nav-link" onclick="showPage('shop')">› Về trang chủ</a>
+  </nav>
+  <div class="auth-header">
+    <div class="badge">✨ Tạo tài khoản mới</div>
+    <h1>Đăng ký<br><span>ngay hôm nay!</span></h1>
+    <p>Tham gia cùng hàng ngàn khách hàng và khám phá bộ sưu tập giày mới nhất.</p>
+  </div>
+  <div class="auth-card">
+    <button class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+      Tiếp tục với Google
+    </button>
+    <div class="or-divider"><span>hoặc</span></div>
+    <div class="form-group">
+      <label>Họ và tên</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">👤</span>
+        <input class="form-input" type="text" placeholder="Nguyễn Văn A">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">✉️</span>
+          <input class="form-input" type="email" placeholder="email@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">📱</span>
+          <input class="form-input" type="tel" placeholder="0901 234 567">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Mật khẩu</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">🔒</span>
+        <input class="form-input" type="password" placeholder="Nhập mật khẩu..." oninput="checkStrength(this)">
+      </div>
+      <div class="strength-bar" id="strengthBar">
+        <div class="strength-seg" id="s1"></div>
+        <div class="strength-seg" id="s2"></div>
+        <div class="strength-seg" id="s3"></div>
+        <div class="strength-seg" id="s4"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Địa chỉ giao hàng</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">📍</span>
+        <input class="form-input" type="text" placeholder="123 Đường ABC, Quận 1, TP.HCM">
+      </div>
+    </div>
+    <button class="auth-submit" onclick="showPage('shop')">Đăng ký ngay →</button>
+    <div class="auth-switch">Đã có tài khoản? <a onclick="showPage('login')">Đăng nhập →</a></div>
+  </div>
+</div>
+
+<!-- ====================== PAYMENT MODAL ====================== -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()">✕</button>
+    <div id="paymentContent">
+      <h2>Thanh toán</h2>
+      <div class="sub">Chọn phương thức thanh toán của bạn</div>
+      <div class="pay-methods">
+        <div class="pay-method selected" onclick="selectPay(this,'cod')">
+          <div class="pay-method-icon">💵</div>
+          <div class="pay-method-name">Tiền mặt (COD)</div>
+          <div class="pay-method-desc">Thanh toán khi nhận hàng</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'momo')">
+          <div class="pay-method-icon">💜</div>
+          <div class="pay-method-name">MoMo</div>
+          <div class="pay-method-desc">Ví điện tử MoMo</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'banking')">
+          <div class="pay-method-icon">🏦</div>
+          <div class="pay-method-name">Chuyển khoản</div>
+          <div class="pay-method-desc">Internet Banking / ATM</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'vnpay')">
+          <div class="pay-method-icon">💳</div>
+          <div class="pay-method-name">VNPay</div>
+          <div class="pay-method-desc">Thẻ tín dụng / ghi nợ</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'zalopay')">
+          <div class="pay-method-icon">🟦</div>
+          <div class="pay-method-name">ZaloPay</div>
+          <div class="pay-method-desc">Ví ZaloPay</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'card')">
+          <div class="pay-method-icon">💠</div>
+          <div class="pay-method-name">Thẻ quốc tế</div>
+          <div class="pay-method-desc">Visa / Mastercard</div>
+        </div>
+      </div>
+      <hr class="modal-divider">
+      <div id="payFormCOD">
+        <div class="modal-field"><label>Họ và tên</label><input type="text" placeholder="Nguyễn Văn A"></div>
+        <div class="modal-row">
+          <div class="modal-field"><label>Số điện thoại</label><input type="tel" placeholder="0901 234 567"></div>
+          <div class="modal-field"><label>Email</label><input type="email" placeholder="email@example.com"></div>
+        </div>
+        <div class="modal-field"><label>Địa chỉ giao hàng</label><input type="text" placeholder="123 Đường ABC, Quận 1, TP.HCM"></div>
+      </div>
+      <div id="payFormCARD" style="display:none">
+        <div class="modal-field"><label>Số thẻ</label><input type="text" placeholder="0000 0000 0000 0000"></div>
+        <div class="modal-row">
+          <div class="modal-field"><label>Ngày hết hạn</label><input type="text" placeholder="MM/YY"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="000"></div>
+        </div>
+        <div class="modal-field"><label>Tên chủ thẻ</label><input type="text" placeholder="NGUYEN VAN A"></div>
+      </div>
+      <div id="payFormQR" style="display:none">
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-size:60px">📱</div>
+          <p style="font-size:13px;color:var(--muted);margin-top:8px">Mở app <strong id="qrAppName">MoMo</strong> và quét mã QR<br>hoặc chuyển khoản theo thông tin bên dưới</p>
+          <div style="background:var(--gray);border-radius:10px;padding:16px;margin-top:16px;text-align:left;font-size:13px">
+            <div style="margin-bottom:6px">🏦 <strong>STK:</strong> 0123456789</div>
+            <div style="margin-bottom:6px">👤 <strong>Chủ TK:</strong> TIEM BAN GIAY</div>
+            <div>💬 <strong>Nội dung:</strong> TBGAY<span id="qrOrderId">001</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-total-row">
+        <span>Tổng thanh toán</span>
+        <span id="modalTotal">0đ</span>
+      </div>
+      <button class="pay-btn" onclick="confirmPayment()">Xác nhận thanh toán 🔒</button>
+      <div class="pay-secure">🛡️ Thanh toán được bảo mật bởi SSL 256-bit</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== TOAST ====================== -->
+<div class="toast" id="toast">✅ Đã thêm vào giỏ hàng!</div>
+
+<script>
+// ===== DATA =====
+const PRODUCTS = [
+  // Nike
+  {id:1,name:"Nike Air Force 1",brand:"Nike",cat:"thethao",gender:"nam",price:2490000,badge:"hot",emoji:"👟"},
+  {id:2,name:"Nike Air Max 270",brand:"Nike",cat:"thethao",gender:"nam",price:3200000,badge:"new",emoji:"👟"},
+  {id:3,name:"Nike Air Max 90",brand:"Nike",cat:"thethao",gender:"nam",price:2800000,badge:null,emoji:"👟"},
+  {id:4,name:"Nike React Infinity",brand:"Nike",cat:"chaybo",gender:"nam",price:3500000,badge:"new",emoji:"🏃"},
+  {id:5,name:"Nike Pegasus 40",brand:"Nike",cat:"chaybo",gender:"nam",price:2900000,badge:null,emoji:"🏃"},
+  {id:6,name:"Nike Blazer Mid 77",brand:"Nike",cat:"thoitrang",gender:"nam",price:2100000,badge:"popular",emoji:"👟"},
+  {id:7,name:"Nike Dunk Low",brand:"Nike",cat:"thoitrang",gender:"nu",price:2600000,badge:"sale",oldPrice:3200000,emoji:"👟"},
+  {id:8,name:"Nike Air Jordan 1",brand:"Nike",cat:"thethao",gender:"nam",price:4500000,badge:"hot",emoji:"🏀"},
+  {id:9,name:"Nike Free Run 5.0",brand:"Nike",cat:"chaybo",gender:"nu",price:2200000,badge:"new",emoji:"👠"},
+  {id:10,name:"Nike Zoom Fly 5",brand:"Nike",cat:"chaybo",gender:"nam",price:3800000,badge:null,emoji:"🏃"},
+  // Adidas
+  {id:11,name:"Adidas Ultraboost 23",brand:"Adidas",cat:"chaybo",gender:"nam",price:3800000,badge:"new",emoji:"🟡"},
+  {id:12,name:"Adidas Stan Smith",brand:"Adidas",cat:"thoitrang",gender:"nu",price:1990000,badge:"sale",oldPrice:2400000,emoji:"🟢"},
+  {id:13,name:"Adidas NMD R1",brand:"Adidas",cat:"thethao",gender:"nam",price:3200000,badge:"popular",emoji:"⚫"},
+  {id:14,name:"Adidas Superstar",brand:"Adidas",cat:"thoitrang",gender:"nu",price:1800000,badge:null,emoji:"⬛"},
+  {id:15,name:"Adidas Forum Low",brand:"Adidas",cat:"thoitrang",gender:"nu",price:2100000,badge:"new",emoji:"🔵"},
+  {id:16,name:"Adidas Gazelle",brand:"Adidas",cat:"thoitrang",gender:"nu",price:1900000,badge:null,emoji:"🟣"},
+  {id:17,name:"Adidas Predator Edge",brand:"Adidas",cat:"thethao",gender:"nam",price:2700000,badge:null,emoji:"⚽"},
+  {id:18,name:"Adidas ZX 2K Boost",brand:"Adidas",cat:"thethao",gender:"nam",price:2900000,badge:"popular",emoji:"🔴"},
+  {id:19,name:"Adidas Ozweego",brand:"Adidas",cat:"thoitrang",gender:"nu",price:2400000,badge:"sale",oldPrice:2900000,emoji:"🌸"},
+  {id:20,name:"Adidas Terrex Swift",brand:"Adidas",cat:"chaybo",gender:"nam",price:3100000,badge:"new",emoji:"🏔️"},
+  // Puma
+  {id:21,name:"Puma RS-X Efekt",brand:"Puma",cat:"thethao",gender:"nam",price:2100000,badge:"sale",oldPrice:2600000,emoji:"🐆"},
+  {id:22,name:"Puma Suede Classic",brand:"Puma",cat:"thoitrang",gender:"nu",price:1600000,badge:null,emoji:"🐾"},
+  {id:23,name:"Puma Deviate Nitro",brand:"Puma",cat:"chaybo",gender:"nam",price:2800000,badge:"new",emoji:"⚡"},
+  {id:24,name:"Puma Velocity Nitro",brand:"Puma",cat:"chaybo",gender:"nam",price:2400000,badge:null,emoji:"💨"},
+  {id:25,name:"Puma Softride Premier",brand:"Puma",cat:"chaybo",gender:"nu",price:1900000,badge:"popular",emoji:"🌟"},
+  {id:26,name:"Puma Clyde All-Pro",brand:"Puma",cat:"thethao",gender:"nam",price:2200000,badge:null,emoji:"🏀"},
+  {id:27,name:"Puma Future Rider",brand:"Puma",cat:"thoitrang",gender:"nu",price:1800000,badge:"sale",oldPrice:2100000,emoji:"🌈"},
+  {id:28,name:"Puma Mayze Stack",brand:"Puma",cat:"thoitrang",gender:"nu",price:2300000,badge:"new",emoji:"🦁"},
+  // Converse
+  {id:29,name:"Converse Chuck Taylor",brand:"Converse",cat:"thoitrang",gender:"nu",price:1490000,badge:"sale",oldPrice:1800000,emoji:"⭐"},
+  {id:30,name:"Converse Run Star Hike",brand:"Converse",cat:"thoitrang",gender:"nu",price:2200000,badge:"popular",emoji:"🌟"},
+  {id:31,name:"Converse One Star",brand:"Converse",cat:"thoitrang",gender:"nu",price:1600000,badge:null,emoji:"✨"},
+  {id:32,name:"Converse Pro Leather",brand:"Converse",cat:"thethao",gender:"nam",price:1900000,badge:"new",emoji:"🏀"},
+  {id:33,name:"Converse Chuck 70",brand:"Converse",cat:"thoitrang",gender:"nu",price:1750000,badge:null,emoji:"💫"},
+  {id:34,name:"Converse Jack Purcell",brand:"Converse",cat:"thoitrang",gender:"nam",price:1850000,badge:"popular",emoji:"🎯"},
+  // Vans
+  {id:35,name:"Vans Old Skool",brand:"Vans",cat:"thoitrang",gender:"nu",price:1390000,badge:"popular",emoji:"✔️"},
+  {id:36,name:"Vans Sk8-Hi",brand:"Vans",cat:"thoitrang",gender:"nu",price:1590000,badge:null,emoji:"🎱"},
+  {id:37,name:"Vans Era",brand:"Vans",cat:"thoitrang",gender:"nu",price:1200000,badge:"sale",oldPrice:1500000,emoji:"🌊"},
+  {id:38,name:"Vans Slip-On",brand:"Vans",cat:"thoitrang",gender:"nu",price:1100000,badge:null,emoji:"🏄"},
+  {id:39,name:"Vans Authentic",brand:"Vans",cat:"thoitrang",gender:"nam",price:1050000,badge:"popular",emoji:"🎿"},
+  {id:40,name:"Vans ComfyCush",brand:"Vans",cat:"thoitrang",gender:"nu",price:1350000,badge:"new",emoji:"☁️"},
+  {id:41,name:"Vans Ultrarange Exo",brand:"Vans",cat:"chaybo",gender:"nam",price:2100000,badge:null,emoji:"🔷"},
+  // New Balance
+  {id:42,name:"New Balance 550",brand:"New Balance",cat:"thethao",gender:"nu",price:2800000,badge:"new",emoji:"🟠"},
+  {id:43,name:"New Balance 990v5",brand:"New Balance",cat:"chaybo",gender:"nam",price:4200000,badge:"popular",emoji:"🇺🇸"},
+  {id:44,name:"New Balance 574",brand:"New Balance",cat:"thoitrang",gender:"nu",price:2100000,badge:null,emoji:"🌿"},
+  {id:45,name:"New Balance 1080v12",brand:"New Balance",cat:"chaybo",gender:"nam",price:3900000,badge:"new",emoji:"🏃"},
+  {id:46,name:"New Balance Fresh Foam",brand:"New Balance",cat:"chaybo",gender:"nu",price:2600000,badge:null,emoji:"☁️"},
+  {id:47,name:"New Balance 327",brand:"New Balance",cat:"thoitrang",gender:"nu",price:2300000,badge:"popular",emoji:"🌸"},
+  {id:48,name:"New Balance XC-72",brand:"New Balance",cat:"thoitrang",gender:"nam",price:2500000,badge:"sale",oldPrice:2900000,emoji:"🌲"},
+  // Reebok
+  {id:49,name:"Reebok Classic Leather",brand:"Reebok",cat:"thoitrang",gender:"nu",price:1700000,badge:null,emoji:"🏷️"},
+  {id:50,name:"Reebok Nano X2",brand:"Reebok",cat:"thethao",gender:"nam",price:2900000,badge:"new",emoji:"💪"},
+  {id:51,name:"Reebok Floatride Run",brand:"Reebok",cat:"chaybo",gender:"nam",price:2600000,badge:null,emoji:"🏃"},
+  {id:52,name:"Reebok Club C 85",brand:"Reebok",cat:"thoitrang",gender:"nu",price:1500000,badge:"popular",emoji:"🎾"},
+  {id:53,name:"Reebok Instapump Fury",brand:"Reebok",cat:"thethao",gender:"nam",price:3200000,badge:"sale",oldPrice:3900000,emoji:"🚀"},
+  // Asics
+  {id:54,name:"Asics Gel-Kayano 29",brand:"Asics",cat:"chaybo",gender:"nam",price:3600000,badge:"new",emoji:"🏃"},
+  {id:55,name:"Asics Gel-Nimbus 25",brand:"Asics",cat:"chaybo",gender:"nu",price:3400000,badge:"popular",emoji:"☁️"},
+  {id:56,name:"Asics Gel-Cumulus 24",brand:"Asics",cat:"chaybo",gender:"nam",price:2900000,badge:null,emoji:"💙"},
+  {id:57,name:"Asics Gel-Kinsei Blast",brand:"Asics",cat:"chaybo",gender:"nu",price:3800000,badge:"new",emoji:"⚡"},
+  {id:58,name:"Asics Gel-Lyte III",brand:"Asics",cat:"thoitrang",gender:"nu",price:2100000,badge:"sale",oldPrice:2500000,emoji:"🌙"},
+  {id:59,name:"Asics Gel-Resolution 9",brand:"Asics",cat:"thethao",gender:"nam",price:3300000,badge:null,emoji:"🎾"},
+  {id:60,name:"Asics Metarun",brand:"Asics",cat:"chaybo",gender:"nam",price:5200000,badge:"popular",emoji:"🏅"},
+];
+
+let cart = [];
+let currentCat = 'all';
+let currentSort = 'popular';
+let selectedPayMethod = 'cod';
+let discount = 0;
+
+// ===== PAGE NAVIGATION =====
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  if(page === 'cart') renderCart();
+  window.scrollTo(0,0);
+}
+
+// ===== NAV ACTIVE =====
+function setNavActive(el) {
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== CATEGORY =====
+const catNames = {
+  all: 'Tất cả sản phẩm', thethao: 'Giày thể thao',
+  nam: 'Giày nam', nu: 'Giày nữ', chaybo: 'Giày chạy bộ',
+  thoitrang: 'Giày thời trang', thuonghieu: 'Theo thương hiệu'
+};
+
+function showCat(cat) { setCatById(cat); }
+
+function setCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCat = cat;
+  document.getElementById('catTitle').textContent = catNames[cat] || 'Tất cả sản phẩm';
+  renderProducts();
+}
+function setCatById(cat) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cat-btn').forEach(b => {
+    if(b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+cat+"'")) b.classList.add('active');
+  });
+  document.getElementById('catTitle').textContent = catNames[cat] || 'Tất cả sản phẩm';
+  renderProducts();
+}
+
+// ===== PRODUCTS RENDER =====
+function getFiltered() {
+  let prods = [...PRODUCTS];
+
+  // --- Search ---
+  const q = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase() : '';
+  if(q) prods = prods.filter(p => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q));
+
+  // --- Category tab ---
+  if(currentCat === 'nam') prods = prods.filter(p => p.gender === 'nam');
+  else if(currentCat === 'nu') prods = prods.filter(p => p.gender === 'nu');
+  else if(currentCat !== 'all' && currentCat !== 'thuonghieu') prods = prods.filter(p => p.cat === currentCat);
+
+  // --- Sidebar: loại giày (cat + gender) ---
+  const checkedCatInputs = [...document.querySelectorAll('input[data-filter="cat"]:checked')];
+  const checkedGenderInputs = [...document.querySelectorAll('input[data-filter="gender"]:checked')];
+  if(checkedCatInputs.length > 0 || checkedGenderInputs.length > 0) {
+    prods = prods.filter(p => {
+      const catMatch = checkedCatInputs.length === 0 || checkedCatInputs.some(cb => cb.dataset.val === p.cat);
+      const genderMatch = checkedGenderInputs.length === 0 || checkedGenderInputs.some(cb => cb.dataset.val === p.gender);
+      return catMatch && genderMatch;
+    });
+  }
+
+  // --- Sidebar: thương hiệu ---
+  const checkedBrands = [...document.querySelectorAll('input[data-filter="brand"]:checked')].map(cb => cb.dataset.val);
+  if(checkedBrands.length > 0) {
+    prods = prods.filter(p => checkedBrands.includes(p.brand));
+  }
+
+  // --- Sidebar: khoảng giá ---
+  const minEl = document.getElementById('priceMin');
+  const maxEl = document.getElementById('priceMax');
+  if(minEl && maxEl) {
+    const minP = parseInt(minEl.value) || 0;
+    const maxP = parseInt(maxEl.value) || 99999999;
+    prods = prods.filter(p => p.price >= minP && p.price <= maxP);
+  }
+
+  // --- Sort ---
+  if(currentSort === 'price-asc') prods.sort((a,b)=>a.price-b.price);
+  else if(currentSort === 'price-desc') prods.sort((a,b)=>b.price-a.price);
+  else if(currentSort === 'newest') prods.sort((a,b)=>b.id-a.id);
+  else prods.sort((a,b) => (b.badge?1:0)-(a.badge?1:0));
+
+  return prods;
+}
+
+function renderProducts() {
+  const prods = getFiltered();
+  const grid = document.getElementById('productGrid');
+  document.getElementById('prodCount').innerHTML = `Hiển thị <strong>${prods.length}</strong> sản phẩm`;
+  grid.innerHTML = prods.map(p => {
+    const inCart = cart.find(c=>c.id===p.id);
+    return `<div class="product-card" onclick="addToCart(${p.id})">
+      <div class="product-img">
+        <div class="product-img-emoji">${p.emoji}</div>
+        ${p.badge ? `<span class="product-badge badge-${p.badge==='sale'?'sale':p.badge==='new'?'new':p.badge==='hot'?'hot':'popular'}">${p.badge==='hot'?'Bán chạy':p.badge==='new'?'Mới':p.badge==='sale'?'Sale':'Phổ biến'}</span>` : ''}
+        <button class="product-wishlist ${inCart?'liked':''}" onclick="event.stopPropagation();toggleWish(this)">❤️</button>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand} · ${p.cat==='thethao'?'Giày thể thao':p.cat==='chaybo'?'Giày chạy bộ':'Giày thời trang'}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price-row">
+          <div>
+            <div class="product-price">${fmt(p.price)}</div>
+            ${p.oldPrice ? `<div class="product-old-price">${fmt(p.oldPrice)}</div>` : ''}
+          </div>
+          <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+ Thêm</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function sortProducts(val) { currentSort = val; renderProducts(); }
+function filterProducts() { renderProducts(); }
+
+function resetFilters() {
+  document.querySelectorAll('.sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
+  document.getElementById('priceMin').value = 0;
+  document.getElementById('priceMax').value = 6000000;
+  document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+  renderProducts();
+  showToast('🔄 Đã xóa tất cả bộ lọc');
+}
+function doSearch() { renderProducts(); }
+function toggleSize(btn) { btn.classList.toggle('active'); }
+function toggleWish(btn) { btn.classList.toggle('liked'); }
+
+// ===== CART =====
+function addToCart(id) {
+  const p = PRODUCTS.find(x=>x.id===id);
+  const existing = cart.find(c=>c.id===id);
+  if(existing) existing.qty++;
+  else cart.push({...p, qty:1});
+  updateBadge();
+  showToast('✅ Đã thêm "' + p.name + '" vào giỏ hàng!');
+}
+
+function updateBadge() {
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  document.querySelectorAll('#cartBadge,#cartBadge2').forEach(b => b.textContent = total);
+}
+
+function renderCart() {
+  const body = document.getElementById('cartBody');
+  if(cart.length === 0) {
+    body.innerHTML = `<div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+      <button class="checkout-btn" style="width:auto;padding:14px 28px" onclick="showPage('shop')">Tiếp tục mua sắm</button>
+    </div>`;
+    updateSummary();
+    return;
+  }
+  body.innerHTML = `
+    <div class="shipping-bar">
+      <span class="icon">🚚</span>
+      <span style="color:#92400e">Mua thêm để được <strong>miễn phí vận chuyển!</strong> 🎉 <span style="color:#059669">Bạn được miễn phí vận chuyển cho đơn hàng này!</span></span>
+    </div>
+    <div class="cart-items-header" style="margin-top:20px">
+      <span>Sản phẩm</span><span></span><span style="text-align:center">Số lượng</span><span style="text-align:right">Đơn giá</span><span></span>
+    </div>
+    <div class="cart-items">
+      ${cart.map(item=>`
+        <div class="cart-item">
+          <div class="cart-item-img">${item.emoji}</div>
+          <div class="cart-item-info">
+            <div class="cart-item-brand">${item.brand}</div>
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-size">Size: 42 | Màu: Trắng/Đen</div>
+          </div>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+          <div class="cart-item-price">${fmt(item.price * item.qty)}</div>
+          <button class="remove-btn" onclick="removeItem(${item.id})">🗑️</button>
+        </div>
+      `).join('')}
+    </div>`;
+  updateSummary();
+}
+
+function changeQty(id, delta) {
+  const item = cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(c=>c.id!==id);
+  updateBadge(); renderCart();
+}
+function removeItem(id) { cart = cart.filter(c=>c.id!==id); updateBadge(); renderCart(); }
+
+function updateSummary() {
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const total = Math.max(0, sub - discount);
+  document.getElementById('sumSubtotal').textContent = fmt(sub);
+  document.getElementById('sumDiscount').textContent = discount > 0 ? '-' + fmt(discount) : 'Không có';
+  document.getElementById('sumTotal').textContent = fmt(total);
+}
+
+function applyCoupon() {
+  const code = document.getElementById('couponInput').value.trim().toUpperCase();
+  if(code === 'TIEMGIAY10') { discount = 100000; showToast('🎉 Áp dụng mã giảm 100.000đ thành công!','success'); }
+  else if(code === 'SALE20') { discount = 200000; showToast('🎉 Áp dụng mã giảm 200.000đ thành công!','success'); }
+  else { showToast('❌ Mã giảm giá không hợp lệ'); }
+  updateSummary();
+}
+
+// ===== PAYMENT =====
+function openPayment() {
+  if(cart.length===0) { showToast('🛒 Giỏ hàng trống!'); return; }
+  const total = cart.reduce((s,c)=>s+c.price*c.qty,0) - discount;
+  document.getElementById('modalTotal').textContent = fmt(Math.max(0,total));
+  document.getElementById('qrOrderId').textContent = String(Math.floor(Math.random()*900)+100);
+  document.getElementById('paymentModal').classList.add('open');
+}
+function closePayment() { document.getElementById('paymentModal').classList.remove('open'); }
+
+function selectPay(el, method) {
+  document.querySelectorAll('.pay-method').forEach(m=>m.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPayMethod = method;
+  document.getElementById('payFormCOD').style.display = 'none';
+  document.getElementById('payFormCARD').style.display = 'none';
+  document.getElementById('payFormQR').style.display = 'none';
+  if(method==='cod') document.getElementById('payFormCOD').style.display='block';
+  else if(method==='card') document.getElementById('payFormCARD').style.display='block';
+  else { document.getElementById('payFormQR').style.display='block'; document.getElementById('qrAppName').textContent = {momo:'MoMo',vnpay:'VNPay',zalopay:'ZaloPay',banking:'ngân hàng'}[method]||method; }
+}
+
+const PAYMENT_CONTENT_ORIGINAL = null; // filled on first open
+
+function confirmPayment() {
+  const orderNum = Math.floor(Math.random()*90000)+10000;
+  document.getElementById('paymentContent').innerHTML = `<div class="success-modal">
+    <div class="success-icon">🎉</div>
+    <h2>Đặt hàng thành công!</h2>
+    <p>Cảm ơn bạn đã mua hàng tại TIEMBANGIAY.<br>Đơn hàng của bạn sẽ được giao trong <strong>24 giờ</strong>.<br><br>Mã đơn hàng: <strong style="color:var(--red)">#TBGAY${orderNum}</strong></p>
+    <button class="auth-submit" style="margin-top:24px" onclick="afterOrder()">Về trang chủ</button>
+  </div>`;
+}
+
+function afterOrder() {
+  closePayment();
+  cart = [];
+  discount = 0;
+  updateBadge();
+  showPage('shop');
+  // Reset payment modal content for next use
+  setTimeout(() => {
+    const pc = document.getElementById('paymentContent');
+    if(pc) pc.innerHTML = window._paymentHTML;
+  }, 400);
+}
+
+// ===== UTILS =====
+function fmt(n) { return n.toLocaleString('vi-VN') + 'đ'; }
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type?' '+type:'');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function checkStrength(input) {
+  const val = input.value;
+  const segs = [document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4')];
+  let strength = 0;
+  if(val.length>4) strength++;
+  if(val.length>8) strength++;
+  if(/[A-Z]/.test(val)&&/[0-9]/.test(val)) strength++;
+  if(val.length>12&&/[!@#$%^&*]/.test(val)) strength++;
+  const colors = ['#ef4444','#f59e0b','#3b82f6','#10b981'];
+  segs.forEach((s,i) => { s.style.background = i<strength ? colors[strength-1] : 'var(--gray2)'; });
+}
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts();
+  // Save original payment modal HTML so it can be restored after successful order
+  window._paymentHTML = document.getElementById('paymentContent').innerHTML;
+});
+document.getElementById('paymentModal').addEventListener('click', e => { if(e.target===document.getElementById('paymentModal')) closePayment(); });
+</script>
+</body>
+</html>
