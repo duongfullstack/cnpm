@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIEMBANGIAY - Khám phá hàng ngàn mẫu giày</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- ====================== PAGE: SHOP ====================== -->
+<div id="page-shop" class="page active">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="logo" onclick="location.reload()">TIEM<span>BAN</span>GIAY</div>
+    <div class="nav-links">
+      <a class="active" onclick="setNavActive(this);showCat('all')">Trang chủ</a>
+      <a onclick="setNavActive(this);showCat('nam')">Nam</a>
+      <a onclick="setNavActive(this);showCat('nu')">Nữ</a>
+      <a onclick="setNavActive(this);showCat('thethao')">Giày thể thao</a>
+      <a onclick="setNavActive(this);showCat('thuonghieu')">Thương hiệu</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search">
+        <span>🔍</span>
+        <input type="text" placeholder="Tìm kiếm giày..." id="searchInput" oninput="doSearch()">
+      </div>
+      <button id="navLoginBtn" class="nav-auth-btn" onclick="showPage('login')">Đăng nhập</button>
+      <button id="navRegisterBtn" class="nav-auth-btn nav-auth-primary" onclick="showPage('register')">Đăng ký</button>
+      <div id="navUserInfo" style="display:none;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border-radius:20px;padding:6px 14px;cursor:pointer;" onclick="toggleUserMenu()">
+          <div style="width:28px;height:28px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;" id="navUserAvatar">U</div>
+          <span id="navUserName" style="font-size:13px;font-weight:600;color:#fff;"></span>
+          <span style="color:rgba(255,255,255,0.5);font-size:11px;">▼</span>
+        </div>
+        <div id="userDropdown" style="display:none;position:absolute;top:60px;right:120px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:8px;min-width:180px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:4px;">
+            <div id="dropdownName" style="font-size:13px;font-weight:700;color:#fff;"></div>
+            <div id="dropdownEmail" style="font-size:11px;color:rgba(255,255,255,0.4);"></div>
+          </div>
+          <button onclick="logoutUser()" style="width:100%;text-align:left;background:none;border:none;padding:10px 14px;font-size:13px;color:#e8192c;cursor:pointer;border-radius:8px;font-family:'DM Sans',sans-serif;" onmouseover="this.style.background='rgba(232,25,44,0.1)'" onmouseout="this.style.background='none'">🚪 Đăng xuất</button>
+        </div>
+      </div>
+      <div class="nav-icon" onclick="showPage('cart')">
+        🛒
+        <span class="cart-badge" id="cartBadge">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🔥 Bộ sưu tập mới 2024</div>
+      <h1>KHÁM PHÁ<br><span>PHONG CÁCH</span><br>CỦA BẠN</h1>
+      <p>Hàng ngàn mẫu giày chính hãng từ các thương hiệu hàng đầu thế giới. Giao hàng nhanh 24h toàn quốc.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Sản phẩm</div></div>
+        <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Đánh giá</div></div>
+        <div class="stat"><div class="stat-num">24h</div><div class="stat-label">Giao hàng</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-bar" id="catBar">
+    <button class="cat-btn active" onclick="setCat(this,'all')">Tất cả</button>
+    <button class="cat-btn" onclick="setCat(this,'thethao')">Giày thể thao</button>
+    <button class="cat-btn" onclick="setCat(this,'nam')">Giày nam</button>
+    <button class="cat-btn" onclick="setCat(this,'nu')">Giày nữ</button>
+    <button class="cat-btn" onclick="setCat(this,'chaybo')">Giày chạy bộ</button>
+    <button class="cat-btn" onclick="setCat(this,'thoitrang')">Giày thời trang</button>
+    <button class="cat-btn" onclick="setCat(this,'thuonghieu')">Thương hiệu</button>
+  </div>
+
+  <!-- SHOP LAYOUT -->
+  <div class="shop-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="filter-section" id="filterCat">
+        <div class="filter-title">Loại giày</div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="thethao" onchange="filterProducts()"> Giày thể thao</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="chaybo" onchange="filterProducts()"> Giày chạy bộ</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="cat" data-val="thoitrang" onchange="filterProducts()"> Giày thời trang</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="gender" data-val="nam" onchange="filterProducts()"> Giày nam</label></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="gender" data-val="nu" onchange="filterProducts()"> Giày nữ</label></div>
+      </div>
+      <div class="filter-section" id="filterBrand">
+        <div class="filter-title">Thương hiệu</div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Nike" onchange="filterProducts()"> Nike</label><span class="filter-count">4</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Adidas" onchange="filterProducts()"> Adidas</label><span class="filter-count">4</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Puma" onchange="filterProducts()"> Puma</label><span class="filter-count">3</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Converse" onchange="filterProducts()"> Converse</label><span class="filter-count">2</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Vans" onchange="filterProducts()"> Vans</label><span class="filter-count">3</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="New Balance" onchange="filterProducts()"> New Balance</label><span class="filter-count">2</span></div>
+        <div class="filter-option"><label><input type="checkbox" data-filter="brand" data-val="Reebok" onchange="filterProducts()"> Reebok</label><span class="filter-count">2</span></div>
+        
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Khoảng giá</div>
+        <div class="price-range">
+          <input class="price-input" id="priceMin" type="number" placeholder="Từ" value="0" onchange="filterProducts()">
+          <input class="price-input" id="priceMax" type="number" placeholder="Đến" value="6000000" onchange="filterProducts()">
+        </div>
+      </div>
+      <div class="filter-section">
+        <div class="filter-title">Size</div>
+        <div class="size-grid" id="sizeGrid">
+          <button class="size-btn" onclick="toggleSize(this)">36</button>
+          <button class="size-btn" onclick="toggleSize(this)">37</button>
+          <button class="size-btn" onclick="toggleSize(this)">38</button>
+          <button class="size-btn" onclick="toggleSize(this)">39</button>
+          <button class="size-btn" onclick="toggleSize(this)">40</button>
+          <button class="size-btn" onclick="toggleSize(this)">41</button>
+          <button class="size-btn" onclick="toggleSize(this)">42</button>
+          <button class="size-btn" onclick="toggleSize(this)">43</button>
+          <button class="size-btn" onclick="toggleSize(this)">44</button>
+          <button class="size-btn" onclick="toggleSize(this)">45</button>
+        </div>
+      </div>
+      <button class="apply-btn" onclick="filterProducts()">Áp dụng bộ lọc</button>
+      <button class="apply-btn" style="background:var(--gray);color:#ffffff;margin-top:8px" onclick="resetFilters()">↺ Xóa bộ lọc</button>
+    </aside>
+
+    <!-- PRODUCTS -->
+    <main class="products-area">
+      <div class="products-header">
+        <div>
+          <h2 id="catTitle">Tất cả sản phẩm</h2>
+          <div class="products-count" id="prodCount">Hiển thị <strong>0</strong> sản phẩm</div>
+        </div>
+        <select class="sort-select" onchange="sortProducts(this.value)">
+          <option value="popular">Phổ biến nhất</option>
+          <option value="price-asc">Giá tăng dần</option>
+          <option value="price-desc">Giá giảm dần</option>
+          <option value="newest">Mới nhất</option>
+        </select>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </main>
+  </div>
+
+</div>
+
+<!-- ====================== PAGE: CART ====================== -->
+<div id="page-cart" class="page">
+  <nav class="navbar">
+    <div class="logo" onclick="location.reload()">TIEM<span>BAN</span>GIAY</div>
+    <div class="nav-links">
+      <a onclick="showPage('shop')">Trang chủ</a>
+      <a onclick="showPage('shop');showCat('nam')">Nam</a>
+      <a onclick="showPage('shop');showCat('nu')">Nữ</a>
+      <a onclick="showPage('shop');showCat('thuonghieu')">Thương hiệu</a>
+    </div>
+    <div class="nav-right">
+      <button id="navLoginBtn" class="nav-auth-btn" onclick="showPage('login')">Đăng nhập</button>
+      <button id="navRegisterBtn" class="nav-auth-btn nav-auth-primary" onclick="showPage('register')">Đăng ký</button>
+      <div id="navUserInfo" style="display:none;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border-radius:20px;padding:6px 14px;cursor:pointer;" onclick="toggleUserMenu()">
+          <div style="width:28px;height:28px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;" id="navUserAvatar">U</div>
+          <span id="navUserName" style="font-size:13px;font-weight:600;color:#fff;"></span>
+          <span style="color:rgba(255,255,255,0.5);font-size:11px;">▼</span>
+        </div>
+        <div id="userDropdown" style="display:none;position:absolute;top:60px;right:120px;background:#1e1e1e;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:8px;min-width:180px;z-index:999;box-shadow:0 8px 32px rgba(0,0,0,0.4);">
+          <div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:4px;">
+            <div id="dropdownName" style="font-size:13px;font-weight:700;color:#fff;"></div>
+            <div id="dropdownEmail" style="font-size:11px;color:rgba(255,255,255,0.4);"></div>
+          </div>
+          <button onclick="logoutUser()" style="width:100%;text-align:left;background:none;border:none;padding:10px 14px;font-size:13px;color:#e8192c;cursor:pointer;border-radius:8px;font-family:'DM Sans',sans-serif;" onmouseover="this.style.background='rgba(232,25,44,0.1)'" onmouseout="this.style.background='none'">🚪 Đăng xuất</button>
+        </div>
+      </div>
+      <div class="nav-icon" onclick="showPage('cart')">🛒<span class="cart-badge" id="cartBadge2">0</span></div>
+    </div>
+  </nav>
+  <div class="breadcrumb">
+    <span onclick="showPage('shop')">Trang chủ</span> › <span>Sản phẩm</span> › <strong>Giỏ hàng</strong>
+  </div>
+  <div class="cart-container">
+    <div class="cart-main">
+      <div class="cart-title"><span class="cart-title-badge"></span> Giỏ hàng</div>
+      <div id="cartBody"></div>
+    </div>
+    <div class="cart-sidebar">
+      <div class="order-summary">
+        <h3>Tóm tắt đơn hàng</h3>
+        <div class="summary-row"><span>Tạm tính</span><span id="sumSubtotal">0đ</span></div>
+        <div class="summary-row"><span>Phí vận chuyển</span><span id="sumShip" style="color:#10b981">Miễn phí</span></div>
+        <div class="summary-row"><span>Giảm giá</span><span id="sumDiscount">-0đ</span></div>
+        <div class="summary-row total"><span>Tổng cộng</span><span class="amount" id="sumTotal">0đ</span></div>
+        <div class="coupon-row">
+          <input class="coupon-input" type="text" placeholder="Mã giảm giá..." id="couponInput">
+          <button class="coupon-btn" onclick="applyCoupon()">Áp dụng</button>
+        </div>
+        <button class="checkout-btn" onclick="openPayment()">Thanh toán ngay 🔒</button>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--muted)">🔒 Thanh toán bảo mật SSL 256-bit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====================== PAGE: LOGIN ====================== -->
+<div id="page-login" class="page auth-page">
+  <div class="auth-left">
+    <div class="auth-left-logo" onclick="showPage('shop')">TIEM<span>BAN</span>GIAY</div>
+    <div class="auth-left-slogan">
+      <h1>KHÁM PHÁ<br><span>PHONG CÁCH</span><br>CỦA BẠN</h1>
+      <p>Hàng ngàn mẫu giày chính hãng từ các thương hiệu hàng đầu thế giới. Giao hàng nhanh 24h toàn quốc.</p>
+      <div class="auth-left-stats">
+        <div class="auth-left-stat"><div class="num">500+</div><div class="lbl">Sản phẩm</div></div>
+        <div class="auth-left-stat"><div class="num">4.9★</div><div class="lbl">Đánh giá</div></div>
+        <div class="auth-left-stat"><div class="num">24H</div><div class="lbl">Giao hàng</div></div>
+      </div>
+    </div>
+    <div class="auth-deco">
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">👟</div>
+        <div class="auth-deco-info"><div class="brand">Nike</div><div class="name">Air Force 1</div><div class="price">2.490.000đ</div></div>
+      </div>
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">🟡</div>
+        <div class="auth-deco-info"><div class="brand">Adidas</div><div class="name">Ultraboost 23</div><div class="price">3.800.000đ</div></div>
+      </div>
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">✔️</div>
+        <div class="auth-deco-info"><div class="brand">Vans</div><div class="name">Old Skool</div><div class="price">1.390.000đ</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-back" onclick="showPage('shop')">← Về trang chủ</div>
+    <div class="auth-right-header">
+      <h2>Chào mừng trở lại! 👋</h2>
+      <p>Đăng nhập để tiếp tục mua sắm</p>
+    </div>
+    <button class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+      Tiếp tục với Google
+    </button>
+    <div class="or-divider"><span>hoặc</span></div>
+    <div class="form-group">
+      <label>Email</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">✉️</span>
+        <input class="form-input" id="loginEmail" type="email" placeholder="email@example.com">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Mật khẩu</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">🔒</span>
+        <input class="form-input" id="loginPassword" type="password" placeholder="Nhập mật khẩu...">
+      </div>
+    </div>
+    <a class="forgot-link">Quên mật khẩu?</a>
+    <div id="loginError" style="color:#e8192c;font-size:13px;margin-bottom:8px;display:none;">❌ Email hoặc mật khẩu không đúng!</div>
+    <button class="auth-submit" onclick="handleLogin()">Đăng nhập →</button>
+    <div class="auth-switch">Chưa có tài khoản? <a onclick="showPage('register')">Đăng ký ngay →</a></div>
+  </div>
+</div>
+
+<!-- ====================== PAGE: REGISTER ====================== -->
+<div id="page-register" class="page auth-page">
+  <div class="auth-left">
+    <div class="auth-left-logo" onclick="showPage('shop')">TIEM<span>BAN</span>GIAY</div>
+    <div class="auth-left-slogan">
+      <h1>THAM GIA<br><span>CỘNG ĐỒNG</span><br>SNEAKER</h1>
+      <p>Đăng ký ngay để nhận ưu đãi độc quyền, cập nhật bộ sưu tập mới nhất và tích điểm thành viên.</p>
+      <div class="auth-left-stats">
+        <div class="auth-left-stat"><div class="num">10K+</div><div class="lbl">Thành viên</div></div>
+        <div class="auth-left-stat"><div class="num">FREE</div><div class="lbl">Vận chuyển</div></div>
+        <div class="auth-left-stat"><div class="num">VIP</div><div class="lbl">Ưu đãi</div></div>
+      </div>
+    </div>
+    <div class="auth-deco">
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">🏀</div>
+        <div class="auth-deco-info"><div class="brand">Nike</div><div class="name">Air Jordan 1</div><div class="price">4.500.000đ</div></div>
+      </div>
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">🟠</div>
+        <div class="auth-deco-info"><div class="brand">New Balance</div><div class="name">550</div><div class="price">2.800.000đ</div></div>
+      </div>
+      <div class="auth-deco-card">
+        <div class="auth-deco-emoji">🐆</div>
+        <div class="auth-deco-info"><div class="brand">Puma</div><div class="name">RS-X Efekt</div><div class="price">2.100.000đ</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-back" onclick="showPage('shop')">← Về trang chủ</div>
+    <div class="auth-right-header">
+      <h2>Tạo tài khoản mới ✨</h2>
+      <p>Tham gia cùng hàng ngàn tín đồ sneaker</p>
+    </div>
+    <button class="google-btn">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="Google">
+      Tiếp tục với Google
+    </button>
+    <div class="or-divider"><span>hoặc</span></div>
+    <div class="form-group">
+      <label>Họ và tên</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">👤</span>
+        <input class="form-input" id="regName" type="text" placeholder="Nguyễn Văn A">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">✉️</span>
+          <input class="form-input" id="regEmail" type="email" placeholder="email@example.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <div class="form-input-wrap">
+          <span class="form-input-icon">📱</span>
+          <input class="form-input" id="regPhone" type="tel" placeholder="0901 234 567">
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Mật khẩu</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">🔒</span>
+        <input class="form-input" id="regPassword" type="password" placeholder="Nhập mật khẩu..." oninput="checkStrength(this)">
+      </div>
+      <div class="strength-bar" id="strengthBar">
+        <div class="strength-seg" id="s1"></div>
+        <div class="strength-seg" id="s2"></div>
+        <div class="strength-seg" id="s3"></div>
+        <div class="strength-seg" id="s4"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Địa chỉ giao hàng</label>
+      <div class="form-input-wrap">
+        <span class="form-input-icon">📍</span>
+        <input class="form-input" id="regAddress" type="text" placeholder="123 Đường ABC, Quận 1, TP.HCM">
+      </div>
+    </div>
+    <div id="registerError" style="color:#e8192c;font-size:13px;margin-bottom:8px;display:none;"></div>
+    <button class="auth-submit" onclick="handleRegister()">Đăng ký ngay →</button>
+    <div class="auth-switch">Đã có tài khoản? <a onclick="showPage('login')">Đăng nhập →</a></div>
+  </div>
+</div>
+
+<!-- ====================== PAYMENT MODAL ====================== -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closePayment()">✕</button>
+    <div id="paymentContent">
+      <h2>Thanh toán</h2>
+      <div class="sub">Chọn phương thức thanh toán của bạn</div>
+      <div class="pay-methods">
+        <div class="pay-method selected" onclick="selectPay(this,'cod')">
+          <div class="pay-method-icon">💵</div>
+          <div class="pay-method-name">Tiền mặt (COD)</div>
+          <div class="pay-method-desc">Thanh toán khi nhận hàng</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'momo')">
+          <div class="pay-method-icon">💜</div>
+          <div class="pay-method-name">MoMo</div>
+          <div class="pay-method-desc">Ví điện tử MoMo</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'banking')">
+          <div class="pay-method-icon">🏦</div>
+          <div class="pay-method-name">Chuyển khoản</div>
+          <div class="pay-method-desc">Internet Banking / ATM</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'vnpay')">
+          <div class="pay-method-icon">💳</div>
+          <div class="pay-method-name">VNPay</div>
+          <div class="pay-method-desc">Thẻ tín dụng / ghi nợ</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'zalopay')">
+          <div class="pay-method-icon">🟦</div>
+          <div class="pay-method-name">ZaloPay</div>
+          <div class="pay-method-desc">Ví ZaloPay</div>
+        </div>
+        <div class="pay-method" onclick="selectPay(this,'card')">
+          <div class="pay-method-icon">💠</div>
+          <div class="pay-method-name">Thẻ quốc tế</div>
+          <div class="pay-method-desc">Visa / Mastercard</div>
+        </div>
+      </div>
+      <hr class="modal-divider">
+      <div id="payFormCOD">
+        <div class="modal-field"><label>Họ và tên</label><input type="text" placeholder="Nguyễn Văn A"></div>
+        <div class="modal-row">
+          <div class="modal-field"><label>Số điện thoại</label><input type="tel" placeholder="0901 234 567"></div>
+          <div class="modal-field"><label>Email</label><input type="email" placeholder="email@example.com"></div>
+        </div>
+        <div class="modal-field"><label>Địa chỉ giao hàng</label><input type="text" placeholder="123 Đường ABC, Quận 1, TP.HCM"></div>
+      </div>
+      <div id="payFormCARD" style="display:none">
+        <div class="modal-field"><label>Số thẻ</label><input type="text" placeholder="0000 0000 0000 0000"></div>
+        <div class="modal-row">
+          <div class="modal-field"><label>Ngày hết hạn</label><input type="text" placeholder="MM/YY"></div>
+          <div class="modal-field"><label>CVV</label><input type="text" placeholder="000"></div>
+        </div>
+        <div class="modal-field"><label>Tên chủ thẻ</label><input type="text" placeholder="NGUYEN VAN A"></div>
+      </div>
+      <div id="payFormQR" style="display:none">
+        <div style="text-align:center;padding:20px 0">
+          <div style="font-size:60px">📱</div>
+          <p style="font-size:13px;color:var(--muted);margin-top:8px">Mở app <strong id="qrAppName">MoMo</strong> và quét mã QR<br>hoặc chuyển khoản theo thông tin bên dưới</p>
+          <div style="background:var(--gray);border-radius:10px;padding:16px;margin-top:16px;text-align:left;font-size:13px">
+            <div style="margin-bottom:6px">🏦 <strong>STK:</strong> 0123456789</div>
+            <div style="margin-bottom:6px">👤 <strong>Chủ TK:</strong> TIEM BAN GIAY</div>
+            <div>💬 <strong>Nội dung:</strong> TBGAY<span id="qrOrderId">001</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-total-row">
+        <span>Tổng thanh toán</span>
+        <span id="modalTotal">0đ</span>
+      </div>
+      <button class="pay-btn" onclick="confirmPayment()">Xác nhận thanh toán 🔒</button>
+      <div class="pay-secure">🛡️ Thanh toán được bảo mật bởi SSL 256-bit</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== TOAST ====================== -->
+<div class="toast" id="toast">✅ Đã thêm vào giỏ hàng!</div>
+<script src="script.js"></script>
+</body>
+</html>
